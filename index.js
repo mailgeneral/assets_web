@@ -415,5 +415,5 @@ document.addEventListener('DOMContentLoaded', () => {
             chatbotFab.click();
         });
     }
-
+});
 
