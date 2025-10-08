@@ -144,7 +144,7 @@ body.menu-open {
     content: '';
     width: 28px;
     height: 3px;
-    background-color: #2e7031;
+    background-color: #d32f2f; /* Rojo sangre para contraste, como el botón del slider */
     border-radius: 3px;
     position: absolute;
     left: 50%;
