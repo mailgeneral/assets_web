@@ -1,0 +1,1173 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #f3f3f3; /* o el color general de fondo de tu sitio */
+  overflow-x: hidden; /* Previene el desbordamiento horizontal */
+}
+
+/* Bloquea el scroll del body cuando el menú está abierto */
+body.menu-open {
+    overflow: hidden;
+}
+
+.main-header {
+    background-color: #f3f3f3;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.main-header .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* centrado ajustándose al ancho total de la pantalla */
+.main-header .brand img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 100%;
+}
+
+/* centrado de elementos dentro del .brand */
+.brand {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* animacion y estilo unificado del botón de whatsapp del header */
+.whatsapp-animado {
+    position: relative;
+    left: -100vw; /* Empieza fuera de la pantalla */
+    /* Dos animaciones: la de entrada y luego el pulso infinito */
+    animation: mover-centro 1.2s cubic-bezier(.68,-0.55,.27,1.55) forwards, 
+               pulse 2.5s 1.2s infinite; /* El pulso empieza tras 1.2s */
+    
+    /* Estilos unificados con .btn-chat */
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #25D366;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem; /* Tamaño adecuado para el header */
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.whatsapp-animado .fab {
+    margin-right: 8px;
+}
+
+@keyframes mover-centro {
+    from {
+        left: -100vw;
+        opacity: 0;
+    }
+    to {
+        left: 0;
+        opacity: 1;
+    }
+}
+
+/* mouse pone oscuro el botón de whatsapp */
+.whatsapp-animado:hover {
+    background-color: #128C7E;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    animation-play-state: running, paused; /* Mantiene la 1ra, pausa la 2da */
+}
+
+/* Estilo para el menú botonera del sitio */
+.nav-list {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list li a {
+    display: inline-block;
+    padding: 10px 28px;
+    border-radius: 20px;
+    background: #c0cac1;
+    color: #2e7031;
+    font-weight: 500;
+    font-size: 1.05rem;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.nav-list li a:hover,
+.nav-list li a.active {
+    background: #1f771d;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);
+}
+
+
+/* ===================================================
+        MENU HAMBURGUESA Y ELEMENTOS STICKY
+   =================================================== */
+
+/* Oculta el menú hamburguesa en escritorio */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    position: relative; /* Para centrar el icono dentro */
+}
+
+/* Elementos exclusivos del estado sticky, ocultos por defecto */
+.sticky-brand-link, .sticky-whatsapp-link {
+    display: none;
+}
+
+/* Estilos para el icono de hamburguesa con CSS puro */
+.hamburger-icon,
+.hamburger-icon::before,
+.hamburger-icon::after {
+    content: '';
+    width: 28px;
+    height: 3px;
+    background-color: #2e7031;
+    border-radius: 3px;
+    position: absolute;
+    left: 50%;
+    transform-origin: center;
+    transition: transform 0.3s ease, top 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger-icon {
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hamburger-icon::before {
+    top: -8px; /* Posición inicial */
+    transform: translateX(-50%);
+}
+
+.hamburger-icon::after {
+    top: 8px; /* Posición inicial */
+    transform: translateX(-50%);
+}
+
+/* Animación a "X" cuando el menú está abierto */
+.menu-open .hamburger-icon {
+    background-color: transparent; /* La línea del medio desaparece */
+}
+
+.menu-open .hamburger-icon::before {
+    top: 0;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.menu-open .hamburger-icon::after {
+    top: 0;
+    transform: translateX(-50%) rotate(-45deg);
+}
+
+
+/* ===================================================
+                  VISTA MÓVIL (max-width: 768px)
+   =================================================== */
+@media (max-width: 768px) {
+    /* Estado inicial del header en móvil */
+    .main-header {
+        position: relative; /* Para posicionar el botón de menú */
+    }
+    
+    .main-header .container {
+        position: relative;
+    }
+
+    /* El botón de menú siempre está visible en móvil */
+    .menu-toggle {
+        display: block;
+        z-index: 502;
+    }
+
+    /* Posicionamiento absoluto SÓLO cuando el header NO es sticky */
+    body:not(.header-is-sticky) .main-header .menu-toggle {
+        position: absolute;
+        top: 18px;
+        left: 18px;
+    }
+    
+    .main-nav {
+        display: none;
+        position: fixed;
+        top: 60px; /* Se alinea con el header sticky */
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        z-index: 500;
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .main-nav.active {
+        display: block;
+        opacity: 1;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px 0;
+    }
+    
+    .nav-list li a {
+        width: auto;
+        display: block;
+        text-align: center;
+        padding: 16px 20px;
+        font-size: 1.2rem;
+        border-radius: 0;
+        background: none;
+        color: #2e7031;
+        border-bottom: 1px solid rgba(46, 112, 49, 0.1);
+        box-shadow: none;
+    }
+
+    .nav-list li:last-child a {
+        border-bottom: none;
+    }
+
+    .nav-list li a:hover,
+    .nav-list li a.active {
+        background: rgba(31, 119, 29, 0.1);
+        color: #1f771d;
+    }
+
+    /* --- ESTADO STICKY DEL HEADER --- */
+    
+    /* Previene el salto de contenido cuando el header se vuelve fijo */
+    body.header-is-sticky main {
+        padding-top: 60px;
+    }
+
+    body.header-is-sticky .main-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 400;
+        transform: translateY(0);
+    }
+    
+    /* El contenedor se convierte en una parrilla de 3 columnas */
+    body.header-is-sticky .main-header .container {
+        display: grid;
+        grid-template-columns: 60px 1fr 60px;
+        place-items: center;
+        height: 100%;
+        padding: 0;
+    }
+
+    /* Ocultamos la marca principal */
+    body.header-is-sticky .main-header .brand {
+        display: none;
+    }
+
+    /* Mostramos los elementos del header fijo */
+    body.header-is-sticky .main-header .sticky-brand-link,
+    body.header-is-sticky .main-header .sticky-whatsapp-link {
+        display: block;
+    }
+
+    /* Ya no es necesario anular .menu-toggle porque la regla de posicionamiento absoluto no se aplica en este estado. */
+
+    .sticky-brand-link {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-weight: 700;
+        color: #2e7031;
+        text-decoration: none;
+        font-size: 1.3rem;
+    }
+
+    .sticky-whatsapp-link {
+        color: #25D366;
+        font-size: 1.8rem;
+    }
+}
+
+
+main section {
+    margin-bottom: 12px;
+}
+
+/* css para el slider */
+
+.hero-slider {
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #e8f5e9;
+    margin-top: 12px;
+}
+
+.slider-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.6s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-item.active {
+    opacity: 1;
+    z-index: 5;
+}
+
+.slider-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Truco para que .hero-slider tome altura automática */
+.hero-slider::after {
+    content: '';
+    display: block;
+    padding-top: 56.25%;
+}
+
+.slider-btn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    display: inline-block;
+    width: auto;
+    background: linear-gradient(145deg, #d32f2f, #b71c1c);
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(183, 28, 28, 0.4);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.slider-btn:hover {
+    background: linear-gradient(145deg, #c62828, #a31515);
+    transform: translate(-50%, -50%) translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(183, 28, 28, 0.5);
+}
+
+/* css para las flechas del slider */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.slider-prev { left: 15px; }
+.slider-next { right: 15px; }
+
+.hero-slider:hover .slider-arrow {
+    opacity: 1;
+}
+
+/* css para los puntos de navegación */
+.slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.slider-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.slider-dot.active {
+    background-color: white;
+}
+
+
+/* Responsive para móviles */
+@media (max-width: 600px) {
+    .hero-slider,
+    .slider-item,
+    .slider-item img {
+        height: 180px;
+    }
+    .slider-btn {
+        padding: 8px 18px;
+        font-size: 0.95rem;
+    }
+}
+
+
+
+/* Limpieza de la sección About Us */
+.about-us .container {
+    padding: 0px;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.about-item {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.about-item img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 15px;
+    border-radius: 20px;
+}
+
+/* Estilo para los botones secundarios dentro de la sección About Us */
+.about-item .btn {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 25px;
+    width: fit-content;
+    background-color: #1f771d;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.about-item .btn:hover {
+    background-color: #128C7E;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+.about-item h2 {
+    text-align: center;
+}
+
+/* El cuadro de chat con ventas */
+.info-box {
+    background-color: #e8f5e9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.about-item .info-box p {
+    text-align: center;
+}
+
+/* Estilo para el nuevo y atractivo botón de chat */
+.btn-chat {
+    display: inline-block;
+    padding: 12px 25px;
+    margin-bottom: 15px;
+    background-color: #25D366;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: pulse 2.5s infinite;
+}
+
+/* Efecto al pasar el mouse por encima */
+.btn-chat:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    animation-play-state: paused;
+}
+
+/* Espacio entre el icono y el texto */
+.btn-chat .fab,
+.whatsapp-animado .fab {
+    margin-right: 8px;
+}
+
+/* Definición de la animación "pulse" */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+
+/* Estilos para párrafos y listas en la sección "About Us" */
+.about-item p {
+    text-align: justify;
+    line-height: 1.6;
+    margin-bottom: 1em;
+}
+
+.about-item p:last-child {
+    margin-bottom: 0;
+}
+
+.about-item ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 20px 0;
+}
+
+.about-item li {
+    background-color: #e8f5e9;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 35px;
+    text-align: left;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.about-item li::before {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #1f771d;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+}
+
+
+/* ===================================================
+        NUEVA SECCIÓN DE PROYECTOS INTEGRALES
+   =================================================== */
+
+.projects-section {
+    padding: 40px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.projects-section .subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: -5px;
+    margin-bottom: 30px;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.project-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: block;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.project-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.project-card:hover img {
+    transform: scale(1.1);
+}
+
+.project-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.project-card:hover::after {
+    opacity: 1;
+}
+
+.project-card h3 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover h3 {
+    transform: translateY(-5px);
+}
+
+.btn-projects {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #1f771d;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-projects:hover {
+    background-color: #128C7E;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+/* ==============================
+       Estilo de títulos
+   ============================== */
+
+h1, h2, h3 {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-weight: 700;
+    color: #2e7031;
+    margin: 12px 0 8px 0;
+    line-height: 1.2;
+}
+
+/* Ajustes específicos por nivel */
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+}
+
+/* Responsivo: textos se escalan en móviles */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    h3 {
+        font-size: 1.2rem;
+    }
+}
+
+
+/* =================== Footer ====================== */
+.main-footer {
+    background-color: #283029;
+    color: #ffffff;
+    padding: 40px 20px 20px 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    border-top: 2px solid #4a544b;
+}
+
+.main-footer a {
+    color: #d4d4d4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.main-footer a:hover {
+    color: #ffffff;
+}
+
+.footer-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-column {
+    flex: 1 1 250px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-column h3 {
+    color: #25D366;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Estilos para los links de navegación del footer */
+.footer-links a {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+
+/* Estilos para el ícono de teléfono y número */
+.contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.contact-item:last-child {
+    margin-bottom: 0;
+}
+
+.contact-item i {
+    color: #25D366;
+}
+
+/* Estilos para los íconos de redes sociales */
+.social-icons {
+    display: flex;
+    gap: 20px;
+}
+.social-icons a {
+    color: #fff;
+    font-size: 1.6rem;
+    display: inline-block;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2) translateY(-2px);
+    color: #25D366;
+}
+
+/* Estilos para la sección y botón de Linktree en el footer */
+.linktree-section {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.btn-linktree {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #4a544b;
+    border-radius: 25px;
+    background-color: transparent;
+    color: #d4d4d4;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-linktree:hover {
+    background-color: #25D366;
+    color: #ffffff;
+    border-color: #25D366;
+    transform: translateY(-2px);
+}
+
+.btn-linktree .fas {
+    margin-right: 8px;
+}
+
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #4a544b;
+    font-size: 0.85rem;
+    color: #a0a0a0;
+}
+
+
+/* =================== Responsive Footer ====================== */
+@media (max-width: 768px) {
+    .footer-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .footer-column {
+        flex-basis: auto;
+        width: 100%;
+    }
+}
+
+/* ===================================================
+                  CHATBOT STYLES
+   =================================================== */
+
+@keyframes throb-glow {
+    0% {
+        box-shadow: 0 4px 12px rgba(221, 44, 0, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 8px 25px rgba(240, 84, 84, 0.5);
+        transform: scale(1.05);
+    }
+    100% {
+        box-shadow: 0 4px 12px rgba(221, 44, 0, 0.3);
+        transform: scale(1);
+    }
+}
+
+.chatbot-fab {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(145deg, #f05454, #dd2c00);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: transform 0.3s ease, background 0.3s ease;
+    animation: throb-glow 3s infinite ease-in-out;
+}
+
+.chatbot-fab:hover {
+    background: linear-gradient(145deg, #dd2c00, #b91c00);
+    transform: scale(1.15);
+    animation-play-state: paused;
+}
+
+.chat-window {
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 350px;
+    max-width: calc(100vw - 40px);
+    height: 500px;
+    max-height: calc(100vh - 120px);
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 999;
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease, visibility 0.3s;
+}
+
+.chat-window.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    visibility: visible;
+    z-index: 1001; /* FIX: Puts open window above the FAB */
+}
+
+.chat-header {
+    background-color: #1f771d;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-weight: 600;
+}
+
+.chat-header h3 {
+    margin: 0;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.close-chat-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f3f3f3;
+    position: relative; /* Establishes a positioning context for offsetTop calculation */
+}
+
+.message {
+    display: flex;
+    margin-bottom: 12px;
+    max-width: 85%;
+}
+
+.message-content {
+    padding: 10px 15px;
+    border-radius: 18px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.message-content a {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.message.user {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+.message.user .message-content {
+    background-color: #25D366;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.ai .message-content {
+    background-color: #e9e9eb;
+    color: #333;
+    border-bottom-left-radius: 4px;
+}
+
+.message.loading .message-content {
+    padding: 10px 15px;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #8e8e93;
+    margin: 0 1px;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1.0); }
+}
+
+/* --- Interactive Action Buttons --- */
+.message-actions {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-chat-action {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+}
+
+.btn-chat-action.secondary {
+    background-color: transparent;
+    border-color: #1f771d;
+    color: #1f771d;
+}
+.btn-chat-action.secondary:hover {
+    background-color: rgba(31, 119, 29, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-chat-action.resource {
+    background-color: #1f771d;
+    color: white;
+}
+.btn-chat-action.resource:hover {
+    background-color: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.btn-chat-action.primary {
+    background-color: #25D366;
+    color: white;
+    font-weight: bold;
+}
+.btn-chat-action.primary:hover {
+    background-color: #128C7E;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+
+.chat-input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+}
+
+#chat-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#chat-input:focus {
+    border-color: #1f771d;
+}
+
+#send-btn {
+    background-color: #1f771d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+#send-btn:hover {
+    background-color: #128C7E;
+}
+
+#send-btn:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+}
+
+
+@media (max-width: 480px) {
+    .chat-window {
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0;
+    }
+    .chatbot-fab {
+        bottom: 15px;
+        right: 15px;
+    }
+}
