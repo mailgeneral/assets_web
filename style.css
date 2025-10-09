@@ -1,7 +1,10 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: #f3f3f3; /* o el color general de fondo de tu sitio */
+  /* Fondo degradado de negro a verde petróleo con anclaje fijo */
+  background: linear-gradient(to bottom, #000000, #005f6b);
+  background-attachment: fixed;
+  color: #f0f0f0; /* Color de texto por defecto para buen contraste */
   overflow-x: hidden; /* Previene el desbordamiento horizontal */
 }
 
@@ -11,7 +14,7 @@ body.menu-open {
 }
 
 .main-header {
-    background-color: #f3f3f3;
+    background-color: transparent; /* El header ahora es transparente sobre el degradado */
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -98,12 +101,12 @@ body.menu-open {
     display: inline-block;
     padding: 10px 28px;
     border-radius: 20px;
-    background: #c0cac1;
-    color: #2e7031;
+    background: rgba(255, 255, 255, 0.1); /* Fondo sutil para el nuevo fondo oscuro */
+    color: #ffffff; /* Texto blanco para contraste */
     font-weight: 500;
     font-size: 1.05rem;
     text-decoration: none;
-    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: background 0.3s, color 0.3s, box-shadow 0.3s;
     font-family: 'Segoe UI', Arial, sans-serif;
 }
@@ -515,6 +518,7 @@ main section {
 
 .about-item .info-box p {
     text-align: center;
+    color: #333; /* Color de texto oscuro para fondo claro */
 }
 
 /* Estilo para el nuevo y atractivo botón de chat */
@@ -567,6 +571,7 @@ main section {
     text-align: justify;
     line-height: 1.6;
     margin-bottom: 1em;
+    color: #333; /* Color de texto oscuro para fondo claro */
 }
 
 .about-item p:last-child {
@@ -1428,6 +1433,7 @@ h3 {
     font-size: 1rem;
     outline: none;
     transition: border-color 0.2s;
+    color: #333; /* Color de texto oscuro para el input */
 }
 
 #chat-input:focus {
