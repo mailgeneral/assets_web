@@ -696,7 +696,7 @@ main section {
 }
 
 .pillar-description {
-    text-align: left !important; /* Override general .about-item p style */
+    text-align: justify !important; /* Override general .about-item p style */
     line-height: 1.5;
     font-size: 0.95rem;
     color: #555;
