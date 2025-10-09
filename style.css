@@ -725,6 +725,91 @@ main section {
     }
 }
 
+/* ===================================================
+        NUEVA SECCIÓN DE DESCARGA DE APP
+   =================================================== */
+
+.app-download-section {
+    padding: 60px 20px;
+    background-color: #283029; /* Dark background to stand out */
+    color: #ffffff;
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .app-grid {
+        grid-template-columns: 1fr 1.2fr;
+    }
+}
+
+.app-image-col img {
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+}
+
+.app-text-col {
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .app-text-col {
+        text-align: left;
+    }
+}
+
+.app-text-col h2 {
+    color: #25D366; /* Bright green for the heading */
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+}
+
+.app-text-col p {
+    font-size: 1.1rem;
+    color: #d4d4d4;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 768px) {
+    .app-text-col p {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+.btn-app-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 35px;
+    background: linear-gradient(145deg, #25D366, #128C7E);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-app-download:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+}
+
 
 /* ===================================================
         NUEVA SECCIÓN DE PROYECTOS INTEGRALES
@@ -1053,6 +1138,9 @@ h3 {
     }
     h3 {
         font-size: 1.2rem;
+    }
+    .app-text-col h2 {
+        font-size: 1.9rem;
     }
 }
 
