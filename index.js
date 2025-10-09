@@ -404,6 +404,107 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Gallery Logic ---
+    const galleryGrid = document.querySelector('.gallery-grid');
+    const modal = document.getElementById('gallery-modal');
+
+    if (galleryGrid && modal) {
+        const modalImage = document.getElementById('modal-image');
+        const modalCounter = document.getElementById('modal-counter');
+        const closeModalBtn = modal.querySelector('.modal-close');
+        const prevBtn = modal.querySelector('.modal-prev');
+        const nextBtn = modal.querySelector('.modal-next');
+        
+        const IMAGE_COUNT = 12;
+        const images = [];
+        let currentIndex = 0;
+
+        // 1. Populate images and create thumbnails
+        for (let i = 1; i <= IMAGE_COUNT; i++) {
+            const imageUrl = `https://assets-web-27t.pages.dev/impermeabilizacion_imperdellanta_by_pedriño_${i}.webp`;
+            images.push(imageUrl);
+
+            const thumbnail = document.createElement('div');
+            thumbnail.className = 'gallery-thumbnail';
+            thumbnail.dataset.index = i - 1;
+            
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = `Proyecto de impermeabilización Imperdellanta - Antes y Después ${i}`;
+            img.loading = 'lazy';
+            img.decoding = 'async';
+
+            thumbnail.appendChild(img);
+            galleryGrid.appendChild(thumbnail);
+        }
+
+        // 2. Functions to control the modal
+        const showImage = (index) => {
+            if (index < 0 || index >= images.length) return;
+            currentIndex = index;
+            modalImage.src = images[currentIndex];
+            modalCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+        };
+
+        const openModal = (index) => {
+            modal.classList.add('show');
+            setTimeout(() => {
+                modal.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+            }, 10);
+            showImage(index);
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('visible');
+            setTimeout(() => {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            }, 300);
+        };
+        
+        const nextImage = () => showImage((currentIndex + 1) % images.length);
+        const prevImage = () => showImage((currentIndex - 1 + images.length) % images.length);
+
+        // 3. Event Listeners
+        galleryGrid.addEventListener('click', (e) => {
+            const thumbnail = e.target.closest('.gallery-thumbnail');
+            if (thumbnail) {
+                openModal(parseInt(thumbnail.dataset.index, 10));
+            }
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        nextBtn.addEventListener('click', nextImage);
+        prevBtn.addEventListener('click', prevImage);
+        
+        document.addEventListener('keydown', (e) => {
+            if (modal.classList.contains('visible')) {
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'Escape') closeModal();
+            }
+        });
+
+        // Swipe navigation for mobile
+        let touchstartX = 0;
+        let touchendX = 0;
+
+        modal.addEventListener('touchstart', (e) => {
+            touchstartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        modal.addEventListener('touchend', (e) => {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchendX < touchstartX - 50) nextImage();
+            if (touchendX > touchstartX + 50) prevImage();
+        }, { passive: true }); 
+    }
+
     // --- Slider AI Assistant Button ---
     const openChatBtn = document.querySelector('.btn-open-chat');
     const chatbotFab = document.querySelector('.chatbot-fab');
@@ -415,5 +516,5 @@ document.addEventListener('DOMContentLoaded', () => {
             chatbotFab.click();
         });
     }
-});
 
+});
