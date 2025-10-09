@@ -827,6 +827,192 @@ main section {
 }
 
 
+/* ===================================================
+        GALERÍA ANTES Y DESPUÉS
+   =================================================== */
+
+.gallery-section {
+    padding: 40px 20px;
+    background-color: #f3f3f3;
+    text-align: center;
+}
+
+.gallery-section .subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: -5px;
+    margin-bottom: 30px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.gallery-thumbnail {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    aspect-ratio: 16 / 9;
+}
+
+.gallery-thumbnail:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.gallery-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.gallery-thumbnail:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-thumbnail::after {
+    content: '\f00e'; /* Font Awesome search-plus icon */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    color: white;
+    font-size: 3rem;
+    background-color: rgba(0,0,0,0.5);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    text-shadow: 0 0 5px black;
+}
+
+.gallery-thumbnail:hover::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* --- Modal / Lightbox Styles --- */
+
+.gallery-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-modal.show {
+    display: flex;
+}
+
+.gallery-modal.visible {
+    opacity: 1;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#modal-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.gallery-modal.visible #modal-image {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2002;
+    transition: color 0.2s;
+    text-shadow: 0 0 5px black;
+}
+
+.modal-close:hover {
+    color: #ccc;
+}
+
+.modal-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 16px;
+    font-size: 1.8rem;
+    z-index: 2001;
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.modal-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-prev { left: 15px; }
+.modal-next { right: 15px; }
+
+.modal-caption {
+    position: absolute;
+    bottom: -35px;
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    text-shadow: 0 0 5px black;
+}
+
+/* Hide modal when mobile menu is open */
+body.menu-open .gallery-modal {
+    display: none;
+}
+
+
 /* ==============================
        Estilo de títulos
    ============================== */
