@@ -1190,17 +1190,18 @@ body.menu-open .gallery-modal {
     justify-content: center;
     gap: 10px;
     width: 100%;
+    box-sizing: border-box; /* FIX: Prevents padding from adding to width */
     text-align: center;
-    padding: 16px 20px; /* Reduced padding */
+    padding: 16px 20px;
     background: linear-gradient(145deg, #25D366, #128C7E);
     color: #fff;
     text-decoration: none;
     border-radius: 30px;
     font-weight: bold;
-    font-size: 1.1rem; /* Reduced font size */
+    font-size: 1.1rem;
     box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
     transition: all 0.3s ease;
-    animation: pulse 2.5s infinite; /* Reusing the pulse animation */
+    animation: pulse 2.5s infinite;
 }
 
 .btn-delivery-primary:hover {
@@ -1215,8 +1216,9 @@ body.menu-open .gallery-modal {
     justify-content: center;
     gap: 10px;
     width: 100%;
+    box-sizing: border-box; /* FIX: Prevents padding from adding to width */
     text-align: center;
-    padding: 15px 20px; /* Reduced padding */
+    padding: 15px 20px;
     background-color: transparent;
     border: 2px solid #6c757d;
     color: #d4d4d4;
