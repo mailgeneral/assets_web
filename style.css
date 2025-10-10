@@ -1155,10 +1155,10 @@ body.menu-open .gallery-modal {
     gap: 10px;
 }
 
-/* Replaced generic rule with specific ones for layout control */
 .delivery-grid p {
     color: #d4d4d4;
     line-height: 1.7;
+    text-align: justify;
 }
 
 /* Apply flex-grow only to the paragraphs that should expand */
@@ -1276,6 +1276,9 @@ h3 {
     }
     .app-text-col h2 {
         font-size: 1.9rem;
+    }
+    .delivery-section h2 {
+        font-size: 1.7rem; /* Ajuste para mejor balance de línea en móvil */
     }
     .delivery-grid {
         grid-template-columns: 1fr;
