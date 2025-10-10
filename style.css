@@ -1412,6 +1412,26 @@ h3 {
     color: #a0a0a0;
 }
 
+.footer-primary-contact {
+    color: #ffffff; /* Brighter for better contrast */
+    font-weight: 500;
+}
+
+.footer-primary-contact:hover {
+    color: #25D366; /* Green hover effect */
+}
+
+/* Styles for the new non-clickable office phone */
+.footer-office-phone {
+    color: #a0a0a0; /* Less prominent color, same as copyright */
+    cursor: default; /* Indicate it's not clickable */
+}
+
+/* Make the office phone icon gray to match text */
+.contact-item .footer-office-phone-icon {
+    color: #a0a0a0;
+}
+
 
 /* =================== Responsive Footer ====================== */
 @media (max-width: 768px) {
