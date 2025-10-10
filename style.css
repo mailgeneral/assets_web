@@ -1155,10 +1155,15 @@ body.menu-open .gallery-modal {
     gap: 10px;
 }
 
+/* Replaced generic rule with specific ones for layout control */
 .delivery-grid p {
     color: #d4d4d4;
     line-height: 1.7;
-    flex-grow: 1; /* Pushes button to the bottom */
+}
+
+/* Apply flex-grow only to the paragraphs that should expand */
+.delivery-secondary > p, .main-option > p {
+    flex-grow: 1;
 }
 
 .main-option {
@@ -1166,7 +1171,11 @@ body.menu-open .gallery-modal {
     padding: 20px;
     border-radius: 10px;
     margin-top: 20px;
-    margin-bottom: 25px;
+    margin-bottom: 0; /* Removed margin to prevent overflow */
+    /* Convert to flex container to fill space and align its button */
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
 }
 
 .main-option h4 {
@@ -1182,13 +1191,13 @@ body.menu-open .gallery-modal {
     gap: 10px;
     width: 100%;
     text-align: center;
-    padding: 18px 30px;
+    padding: 16px 20px; /* Reduced padding */
     background: linear-gradient(145deg, #25D366, #128C7E);
     color: #fff;
     text-decoration: none;
     border-radius: 30px;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* Reduced font size */
     box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
     transition: all 0.3s ease;
     animation: pulse 2.5s infinite; /* Reusing the pulse animation */
@@ -1207,7 +1216,7 @@ body.menu-open .gallery-modal {
     gap: 10px;
     width: 100%;
     text-align: center;
-    padding: 15px 25px;
+    padding: 15px 20px; /* Reduced padding */
     background-color: transparent;
     border: 2px solid #6c757d;
     color: #d4d4d4;
