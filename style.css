@@ -636,7 +636,7 @@ main section {
 }
 
 .manifesto-item p {
-    text-align: left;
+    text-align: justify;
     margin-bottom: 0;
 }
 
