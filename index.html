@@ -2,8 +2,167 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página No Encontrada | Imperdellanta</title>
+    <link rel="icon" href="https://assets-web-27t.pages.dev/favicon_imperdellanta_by_pedriño.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap');
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f3f3f3;
+            color: #333;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-container {
+            max-width: 600px;
+            padding: 40px 20px;
+            margin: 20px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .error-icon {
+            font-size: 5rem;
+            color: #1f771d;
+            margin-bottom: 20px;
+            animation: pulse-icon 2s infinite ease-in-out;
+        }
+        
+        @keyframes pulse-icon {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e7031;
+            margin: 0 0 15px 0;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .navigation-links {
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .navigation-links a {
+            color: #1f771d;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .navigation-links a:hover {
+            background-color: #e8f5e9;
+            text-decoration: underline;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px; /* Added margin for separation */
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #25D366;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8rem; }
+            .error-icon { font-size: 4rem; }
+        }
+
+    </style>
 </head>
 <body>
-<p> Magia!</p>
+
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-unlink"></i>
+        </div>
+        <h1>Te has desviado del camino.</h1>
+        <p>La página que buscas se ha desvanecido en las sombras o nunca existió. No te preocupes. En Imperdellanta, somos expertos en sellar lo roto y proteger lo valioso. Estás en el lugar correcto, aunque hayas llegado por el camino equivocado.</p>
+
+        <div class="navigation-links">
+            <a href="https://drino.short.gy/WIX-PRODUCTOS" target="_parent">Productos</a>
+            <a href="https://drino.short.gy/WIX-FICHAS-TEC" target="_parent">Fichas Técnicas</a>
+            <a href="https://drino.short.gy/APP-DESCARGA" target="_parent">Descargar la App</a>
+        </div>
+
+        <div class="action-buttons">
+            <a href="https://drino.short.gy/Whatsapp-top-web" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <i class="fab fa-whatsapp"></i> Recibir Asistencia
+            </a>
+            <a href="./" class="btn btn-secondary" target="_parent">
+                <i class="fas fa-home"></i> Volver al Refugio
+            </a>
+             <a href="https://drino.short.gy/IMPERDELLANTA_PRECIOS" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                <i class="fas fa-tags"></i> Ver Lista de Precios
+            </a>
+            <a href="https://drino.short.gy/LINKTREE" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                <i class="fas fa-link"></i> TODA LA INFO
+            </a>
+        </div>
+    </div>
+
 </body>
 </html>
