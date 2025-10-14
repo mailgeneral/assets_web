@@ -40,7 +40,7 @@ export default {
     // If the URL has no extension, we rewrite it.
     // This is the "Optimized Mode" by default.
     // To activate "Degraded Mode," change '.webp' to '.png'.
-    const targetExtension = '.webp';
+    const targetExtension = '.old';
     const newUrl = new URL(`${path}${targetExtension}`, url.origin);
 
     // Fetch the rewritten URL from the underlying Cloudflare Pages assets.
