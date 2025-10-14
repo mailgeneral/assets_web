@@ -421,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Populate images and create thumbnails
         for (let i = 1; i <= IMAGE_COUNT; i++) {
-            const imageUrl = `https://assets-web-27t.pages.dev/impermeabilizacion_imperdellanta_by_pedriño_${i}.webp`;
+            const imageUrl = `https://assets-web-27t.pages.dev/impermeabilizacion_imperdellanta_by_pedriño_${i}`;
             images.push(imageUrl);
 
             const thumbnail = document.createElement('div');
