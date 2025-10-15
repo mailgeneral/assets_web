@@ -1,25 +1,26 @@
 /**
  * =================================================================================
- * CLOUDFLARE PAGES WORKER - DYNAMIC ASSET PROXY
+ * WORKER DE CLOUDFLARE PAGES - PROXY DINÁMICO DE ACTIVOS
  * =================================================================================
- * This worker intercepts requests to the assets domain (assets-web-27t.pages.dev).
- * Its purpose is to serve assets from extension-less URLs, allowing for a
- * "degradation switch" to be flipped remotely without touching the client-side HTML.
+ * Este worker intercepta las peticiones al dominio de activos (assets-web-27t.pages.dev),
+ * el cual actúa como un repetidor del repositorio de activos en GitHub:
+ * https://github.com/mailgeneral/assets_web
  *
- * TACTICAL OVERVIEW:
- * 1.  It inspects the incoming request URL's path.
- * 2.  If the path already has a file extension (e.g., /style.css, /index.js),
- *     it allows the request to proceed to the original file as intended.
- * 3.  If the path has NO extension (e.g., /imperdellanta_puebla_by_pedriño),
- *     it assumes this is an asset alias.
- * 4.  It rewrites the URL on the fly to append a specific extension.
- *     - OPTIMIZED MODE (Default): Appends ".webp" to serve fast, modern images.
- *     - DEGRADED MODE (Contingency): Can be changed to append ".png" to serve
- *       heavier, unoptimized images, thus slowing down the site's performance.
- * 5.  The browser is unaware of this rewrite; it receives the correct asset
- *     transparently.
+ * Su propósito es servir activos desde URLs sin extensión, permitiendo activar
+ * un "interruptor de degradación" de forma remota sin tocar el HTML del cliente.
  *
- * This provides a powerful, centralized control mechanism over site performance.
+ * RESUMEN TÁCTICO:
+ * 1.  Inspecciona la ruta de la URL de la petición entrante.
+ * 2.  Si la ruta ya tiene una extensión de archivo (ej. /style.css, /index.js),
+ *     permite que la petición proceda al archivo original como se espera.
+ * 3.  Si la ruta es '/main-layout', la reescribe a '/main-layout.html' para servir
+ *     el contenido principal del sitio.
+ * 4.  Si la ruta NO tiene extensión y no es '/main-layout' (es decir, es una imagen),
+ *     asume que es un alias y le añade la extensión '.webp'.
+ * 5.  El navegador no es consciente de esta reescritura; recibe el activo
+ *     correcto de forma transparente.
+ *
+ * Esto proporciona un mecanismo de control potente y centralizado sobre el rendimiento del sitio.
  */
 
 export default {
@@ -27,24 +28,23 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // This REGEX checks if the path ends with a common file extension.
-    // We will let these requests pass through unmodified.
     const hasKnownExtension = /\.(css|js|json|png|jpg|jpeg|webp|gif|svg|ico|txt|html|map)$/i.test(path);
 
     if (hasKnownExtension) {
-      // It's a direct request to a file with an extension, let Cloudflare Pages handle it.
       return env.ASSETS.fetch(request);
     }
 
-    // --- THE DEGRADATION SWITCH ---
-    // If the URL has no extension, we rewrite it.
-    // This is the "Optimized Mode" by default.
-    // To activate "Degraded Mode," change '.webp' to '.png'.
+    // LÓGICA VIP: Si la petición es para el layout principal, reescribimos a .html
+    if (path === '/main-layout') {
+        const newUrl = new URL(`${path}.html`, url.origin);
+        return env.ASSETS.fetch(newUrl.toString());
+    }
+
+    // LÓGICA DE IMÁGENES (INTERRUPTOR DE DEGRADACIÓN)
+    // Para activar el "Modo Degradado", cambia '.webp' a '.png'.
     const targetExtension = '.webp';
     const newUrl = new URL(`${path}${targetExtension}`, url.origin);
 
-    // Fetch the rewritten URL from the underlying Cloudflare Pages assets.
-    // The browser only ever sees the original, extension-less URL.
     return env.ASSETS.fetch(newUrl.toString());
   },
 };
