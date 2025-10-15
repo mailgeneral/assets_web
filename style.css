@@ -684,7 +684,7 @@ main section {
 }
 
 .manifesto-item p {
-    text-align: left;
+    text-align: justify; /* Cambiado a justificado para una mejor alineación del texto. */
     margin-bottom: 0;
 }
 
