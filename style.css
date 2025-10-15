@@ -1,74 +1,40 @@
-/* =================================================================================
-   GUÍA DEL DESARROLLADOR Y ESTILOS GENERALES
-   =================================================================================
-   Este es el archivo principal de estilos. Está organizado en secciones lógicas
-   para que puedas encontrar y modificar fácilmente cualquier parte del sitio.
-   He añadido comentarios detallados para explicar no solo QUÉ hace cada regla,
-   sino POR QUÉ se implementa de esa manera.
-   ================================================================================= */
-
-/* ===================================================
-   ESTILOS BASE (HTML & BODY)
-   =================================================== */
 html, body {
   margin: 0;
   padding: 0;
-  /* Fondo degradado de negro a verde petróleo.
-     'background-attachment: fixed' hace que el degradado permanezca estático
-     mientras el usuario hace scroll, creando un efecto de profundidad. */
   background: linear-gradient(to bottom, #000000, #005f6b);
   background-attachment: fixed;
-  color: #f0f0f0; /* Color de texto claro por defecto para buen contraste sobre el fondo oscuro. */
-  overflow-x: hidden; /* Previene la aparición de una barra de scroll horizontal no deseada. */
+  color: #f0f0f0;
+  overflow-x: hidden;
 }
-
-/* Bloquea el scroll del body cuando el menú móvil está abierto para evitar
-   que el contenido de atrás se mueva mientras se navega por el menú. */
 body.menu-open {
     overflow: hidden;
 }
-
-/* ===================================================
-   CABECERA PRINCIPAL (HEADER)
-   =================================================== */
 .main-header {
-    background-color: transparent; /* El header es transparente para mostrar el degradado del body. */
-    /* Transición suave para cuando el header aparece/desaparece (ver lógica de 'header-is-sticky' más abajo). */
+    background-color: transparent;
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-
 .main-header .container {
     display: flex;
-    flex-direction: column; /* Apila el logo y la navegación verticalmente en el diseño inicial. */
-    align-items: center;   /* Centra los elementos horizontalmente. */
+    flex-direction: column;
+    align-items: center;
 }
-
-/* El logo se ajusta al 100% del ancho de su contenedor. */
 .main-header .brand img {
     width: 100%;
     height: auto;
     display: block;
     max-width: 100%;
 }
-
 .brand {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
-/* Animación y estilo del botón de WhatsApp en la cabecera. */
 .whatsapp-animado {
     position: relative;
-    left: -100vw; /* Comienza fuera de la pantalla a la izquierda. */
-    /* Se aplican dos animaciones secuenciales:
-       1. 'mover-centro': Dura 1.2s, lo trae al centro. 'forwards' mantiene su estado final.
-       2. 'pulse': Inicia después de 1.2s ('1.2s' de delay) y se repite infinitamente. */
+    left: -100vw;
     animation: mover-centro 1.2s cubic-bezier(.68,-0.55,.27,1.55) forwards, 
                pulse 2.5s 1.2s infinite;
-    
-    /* Estilos unificados con otros botones de chat para consistencia. */
     display: inline-flex;
     align-items: center;
     padding: 10px 20px;
@@ -83,12 +49,9 @@ body.menu-open {
     margin-top: 12px;
     margin-bottom: 12px;
 }
-
 .whatsapp-animado .fab {
-    margin-right: 8px; /* Espacio entre el ícono y el texto. */
+    margin-right: 8px;
 }
-
-/* Animación que trae el botón desde la izquierda. */
 @keyframes mover-centro {
     from {
         left: -100vw;
@@ -99,33 +62,25 @@ body.menu-open {
         opacity: 1;
     }
 }
-
-/* Efecto hover: el botón se oscurece y crece ligeramente. */
 .whatsapp-animado:hover {
     background-color: #128C7E;
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    /* Pausa la animación de pulso mientras el mouse está encima para una mejor interacción. */
     animation-play-state: running, paused;
 }
-
-/* ===================================================
-   NAVEGACIÓN PRINCIPAL
-   =================================================== */
 .nav-list {
     display: flex;
-    justify-content: center; /* Centra la botonera. */
-    gap: 18px; /* Espacio entre cada botón. */
+    justify-content: center;
+    gap: 18px;
     list-style: none;
     margin: 0;
     padding: 0;
 }
-
 .nav-list li a {
     display: inline-block;
     padding: 10px 28px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.1); /* Fondo semitransparente que resalta sobre el degradado. */
+    background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
     font-weight: 500;
     font-size: 1.05rem;
@@ -134,20 +89,12 @@ body.menu-open {
     transition: background 0.3s, color 0.3s, box-shadow 0.3s;
     font-family: 'Segoe UI', Arial, sans-serif;
 }
-
-/* Estilo para el botón activo o al pasar el mouse. */
 .nav-list li a:hover,
 .nav-list li a.active {
-    background: #1f771d; /* Verde corporativo. */
+    background: #1f771d;
     color: #fff;
     box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);
 }
-
-/* ===================================================
-   MENÚ HAMBURGUESA Y HEADER "STICKY" (FIJO AL HACER SCROLL)
-   =================================================== */
-
-/* Ocultamos el botón de hamburguesa en pantallas de escritorio por defecto. */
 .menu-toggle {
     display: none;
     background: none;
@@ -158,125 +105,87 @@ body.menu-open {
     height: 40px;
     position: relative;
 }
-
-/* Elementos exclusivos del header fijo (logo y WhatsApp pequeño) también se ocultan por defecto. */
 .sticky-brand-link, .sticky-whatsapp-link {
     display: none;
 }
-
-/* TÉCNICA DE ICONO HAMBURGUESA CON CSS PURO:
-   - '.hamburger-icon' es la línea del medio.
-   - '::before' es la línea de arriba.
-   - '::after' es la línea de abajo.
-   Esto nos permite animar las 3 líneas individualmente para formar una 'X'. */
 .hamburger-icon,
 .hamburger-icon::before,
 .hamburger-icon::after {
     content: '';
     width: 28px;
     height: 3px;
-    background-color: #d32f2f; /* Rojo para que contraste y coincida con los botones del slider. */
+    background-color: #d32f2f;
     border-radius: 3px;
     position: absolute;
     left: 50%;
-    transform-origin: center; /* La rotación ocurrirá desde el centro de la línea. */
+    transform-origin: center;
     transition: transform 0.3s ease, top 0.3s ease, opacity 0.3s ease;
-    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)); /* Resplandor para visibilidad. */
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9));
 }
-
-/* Posicionamos la línea del medio. */
 .hamburger-icon {
     top: 50%;
-    transform: translate(-50%, -50%); /* Truco para centrar perfectamente. */
+    transform: translate(-50%, -50%);
 }
-
-/* Posicionamos la línea de arriba. */
 .hamburger-icon::before {
     top: -8px;
     transform: translateX(-50%);
 }
-
-/* Posicionamos la línea de abajo. */
 .hamburger-icon::after {
     top: 8px;
     transform: translateX(-50%);
 }
-
-/* Animación a 'X' cuando el menú está abierto (body tiene la clase '.menu-open'). */
 .menu-open .hamburger-icon {
-    background-color: transparent; /* La línea del medio se desvanece. */
+    background-color: transparent;
 }
-
 .menu-open .hamburger-icon::before {
-    top: 0; /* Se mueve al centro. */
-    transform: translateX(-50%) rotate(45deg); /* Gira 45 grados. */
+    top: 0;
+    transform: translateX(-50%) rotate(45deg);
 }
-
 .menu-open .hamburger-icon::after {
-    top: 0; /* Se mueve al centro. */
-    transform: translateX(-50%) rotate(-45deg); /* Gira -45 grados. */
+    top: 0;
+    transform: translateX(-50%) rotate(-45deg);
 }
-
-
-/* ===================================================
-   VISTA MÓVIL (Ancho de pantalla menor a 768px)
-   =================================================== */
 @media (max-width: 768px) {
-    /* Estado inicial del header en móvil (antes de hacer scroll). */
     .main-header {
         position: relative;
     }
-    
     .main-header .container {
         position: relative;
     }
-
-    /* Mostramos el botón de hamburguesa. */
     .menu-toggle {
         display: block;
-        z-index: 502; /* Se asegura de estar por encima del panel de navegación. */
+        z-index: 502;
     }
-
-    /* Posicionamiento del botón de menú SOLO cuando el header NO es fijo.
-       La regla ':not(.header-is-sticky)' es muy específica para evitar que se aplique
-       cuando el header se fija con el scroll. */
     body:not(.header-is-sticky) .main-header .menu-toggle {
         position: absolute;
         top: 18px;
         left: 18px;
     }
-    
-    /* El panel de navegación: por defecto está oculto. */
     .main-nav {
         display: none;
-        position: fixed; /* Se fija a la ventana. */
-        top: 60px; /* Se alinea justo debajo del header fijo. */
+        position: fixed;
+        top: 60px;
         left: 0;
         width: 100%;
         background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(5px); /* Efecto de desenfoque del fondo. */
+        backdrop-filter: blur(5px);
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         z-index: 500;
-        max-height: calc(100vh - 60px); /* Ocupa el resto de la altura de la pantalla. */
-        overflow-y: auto; /* Permite scroll si hay muchos elementos. */
-        opacity: 0; /* Animación de aparición. */
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
+        opacity: 0;
         transition: opacity 0.3s ease;
     }
-
-    /* Cuando se activa el menú, se muestra el panel. */
     .main-nav.active {
         display: block;
         opacity: 1;
     }
-
-    /* Estilos de la lista de navegación en el panel móvil. */
     .nav-list {
-        flex-direction: column; /* Apilado vertical. */
-        align-items: stretch; /* Ocupa todo el ancho. */
+        flex-direction: column;
+        align-items: stretch;
         gap: 0;
         padding: 10px 0;
     }
-    
     .nav-list li a {
         width: auto;
         display: block;
@@ -285,30 +194,21 @@ body.menu-open {
         font-size: 1.2rem;
         border-radius: 0;
         background: none;
-        color: #2e7031; /* Color oscuro para contraste con el fondo claro del panel. */
-        border-bottom: 1px solid rgba(46, 112, 49, 0.1); /* Separador sutil. */
+        color: #2e7031;
+        border-bottom: 1px solid rgba(46, 112, 49, 0.1);
         box-shadow: none;
     }
-
     .nav-list li:last-child a {
         border-bottom: none;
     }
-
     .nav-list li a:hover,
     .nav-list li a.active {
         background: rgba(31, 119, 29, 0.1);
         color: #1f771d;
     }
-
-    /* --- ESTADO "STICKY" (FIJO) DEL HEADER EN MÓVIL --- */
-    
-    /* Cuando el header se fija, el contenido principal ('main') podría saltar hacia arriba.
-       Este 'padding-top' compensa la altura del header fijo, evitando el salto. */
     body.header-is-sticky main {
         padding-top: 60px;
     }
-
-    /* Estilos del header cuando se fija en la parte superior. */
     body.header-is-sticky .main-header {
         position: fixed;
         top: 0;
@@ -320,28 +220,20 @@ body.menu-open {
         z-index: 400;
         transform: translateY(0);
     }
-    
-    /* El contenedor del header fijo usa CSS Grid para alinear 3 elementos:
-       [Hamburguesa | Logo | WhatsApp] */
     body.header-is-sticky .main-header .container {
         display: grid;
-        grid-template-columns: 60px 1fr 60px; /* 3 columnas: izq, centro, der. */
-        place-items: center; /* Centra los elementos en sus celdas. */
+        grid-template-columns: 60px 1fr 60px;
+        place-items: center;
         height: 100%;
         padding: 0;
     }
-
-    /* Ocultamos el logo grande y el botón de WhatsApp animado. */
     body.header-is-sticky .main-header .brand {
         display: none;
     }
-
-    /* Mostramos los elementos pequeños diseñados para el header fijo. */
     body.header-is-sticky .main-header .sticky-brand-link,
     body.header-is-sticky .main-header .sticky-whatsapp-link {
         display: block;
     }
-
     .sticky-brand-link {
         font-family: 'Segoe UI', Arial, sans-serif;
         font-weight: 700;
@@ -349,20 +241,14 @@ body.menu-open {
         text-decoration: none;
         font-size: 1.3rem;
     }
-
     .sticky-whatsapp-link {
         color: #25D366;
         font-size: 1.8rem;
     }
 }
-
-/* ===================================================
-   SECCIONES PRINCIPALES Y SLIDER
-   =================================================== */
 main section {
-    margin-bottom: 12px; /* Pequeño espacio entre cada sección. */
+    margin-bottom: 12px;
 }
-
 .hero-slider {
     width: 100%;
     max-width: 100%;
@@ -371,11 +257,6 @@ main section {
     background: #e8f5e9;
     margin-top: 12px;
 }
-
-/* Lógica del slider:
-   - Todos los slides están apilados uno encima del otro con 'position: absolute'.
-   - Solo el que tiene la clase '.active' es visible (opacity: 1).
-   - El cambio de slide se hace cambiando la clase '.active' con JavaScript. */
 .slider-item {
     position: absolute;
     top: 0;
@@ -383,45 +264,35 @@ main section {
     width: 100%;
     opacity: 0;
     transition: opacity 0.6s;
-    display: flex; /* Para centrar el botón dentro del slide. */
+    display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .slider-item.active {
     opacity: 1;
-    z-index: 5; /* Asegura que el slide activo esté por encima de los demás. */
+    z-index: 5;
 }
-
 .slider-item img {
     width: 100%;
     height: auto;
     display: block;
-    object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse. */
+    object-fit: cover;
 }
-
-/* TRUCO DE ASPECT RATIO (16:9):
-   - El contenedor del slider no tiene una altura fija.
-   - Usamos un pseudo-elemento '::after' con un 'padding-top' porcentual.
-   - El porcentaje se calcula como (alto / ancho) * 100. Para 16:9, es (9 / 16) * 100 = 56.25%.
-   - Esto fuerza al contenedor a mantener siempre esa proporción, haciendo que la altura se ajuste automáticamente al ancho. */
 .hero-slider::after {
     content: '';
     display: block;
     padding-top: 56.25%;
 }
-
-/* Botones dentro de cada slide. */
 .slider-btn {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%); /* Centrado perfecto. */
+    transform: translate(-50%, -50%);
     z-index: 2;
     text-align: center;
     display: inline-block;
     width: auto;
-    background: linear-gradient(145deg, #d32f2f, #b71c1c); /* Rojo sangre. */
+    background: linear-gradient(145deg, #d32f2f, #b71c1c);
     color: #fff;
     padding: 12px 28px;
     border-radius: 20px;
@@ -431,14 +302,11 @@ main section {
     transition: all 0.3s ease;
     border: none;
 }
-
 .slider-btn:hover {
     background: linear-gradient(145deg, #c62828, #a31515);
-    transform: translate(-50%, -50%) translateY(-3px) scale(1.05); /* Efecto 3D sutil. */
+    transform: translate(-50%, -50%) translateY(-3px) scale(1.05);
     box-shadow: 0 6px 20px rgba(183, 28, 28, 0.5);
 }
-
-/* Flechas de navegación del slider. */
 .slider-arrow {
     position: absolute;
     top: 50%;
@@ -451,19 +319,14 @@ main section {
     padding: 10px 15px;
     font-size: 1.5rem;
     border-radius: 50%;
-    opacity: 0; /* Ocultas por defecto. */
+    opacity: 0;
     transition: opacity 0.3s;
 }
-
 .slider-prev { left: 15px; }
 .slider-next { right: 15px; }
-
-/* Las flechas aparecen al pasar el mouse sobre el slider. */
 .hero-slider:hover .slider-arrow {
     opacity: 1;
 }
-
-/* Puntos de navegación (dots) del slider. */
 .slider-dots {
     position: absolute;
     bottom: 20px;
@@ -471,7 +334,6 @@ main section {
     transform: translateX(-50%);
     z-index: 10;
 }
-
 .slider-dot {
     display: inline-block;
     width: 12px;
@@ -482,13 +344,9 @@ main section {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
 .slider-dot.active {
-    background-color: white; /* El punto del slide actual es blanco sólido. */
+    background-color: white;
 }
-
-
-/* Slider en móviles pequeños: altura fija para evitar que sea demasiado grande. */
 @media (max-width: 600px) {
     .hero-slider,
     .slider-item,
@@ -500,31 +358,20 @@ main section {
         font-size: 0.95rem;
     }
 }
-
-
-/* ===================================================
-   SECCIÓN "SOBRE NOSOTROS" (ABOUT US)
-   =================================================== */
 .about-us .container {
     padding: 0px;
 }
-
-/* Usamos CSS Grid para un diseño de columnas adaptable.
-   'minmax(300px, 1fr)' significa: cada columna tendrá un mínimo de 300px,
-   pero si hay más espacio, se repartirá equitativamente ('1fr'). */
 .about-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
 }
-
 .about-item {
-    background-color: #f9f9f9; /* Fondo claro para las tarjetas de contenido. */
+    background-color: #f9f9f9;
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
-
 .about-item img {
     max-width: 100%;
     height: auto;
@@ -532,12 +379,11 @@ main section {
     margin: 0 auto 15px;
     border-radius: 20px;
 }
-
 .about-item .btn {
     display: block;
     margin: 20px auto;
     padding: 12px 25px;
-    width: fit-content; /* El ancho del botón se ajusta a su contenido. */
+    width: fit-content;
     background-color: #1f771d;
     color: #fff;
     text-decoration: none;
@@ -545,32 +391,25 @@ main section {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
 }
-
 .about-item .btn:hover {
     background-color: #128C7E;
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-
 .about-item h2 {
     text-align: center;
 }
-
-/* Caja de información para el chat con ventas. */
 .info-box {
-    background-color: #e8f5e9; /* Verde muy claro. */
+    background-color: #e8f5e9;
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
     text-align: center;
 }
-
 .about-item .info-box p {
     text-align: center;
-    color: #333; /* Texto oscuro para que sea legible sobre el fondo claro. */
+    color: #333;
 }
-
-/* Botón de chat de WhatsApp. */
 .btn-chat {
     display: inline-block;
     padding: 12px 25px;
@@ -582,21 +421,17 @@ main section {
     border-radius: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
-    animation: pulse 2.5s infinite; /* La misma animación de pulso que el botón del header. */
+    animation: pulse 2.5s infinite;
 }
-
 .btn-chat:hover {
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    animation-play-state: paused; /* Pausa el pulso al interactuar. */
+    animation-play-state: paused;
 }
-
 .btn-chat .fab,
 .whatsapp-animado .fab {
     margin-right: 8px;
 }
-
-/* Animación de pulso, usada en varios botones de WhatsApp. */
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -611,41 +446,33 @@ main section {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 }
-
-/* Párrafos y listas en la sección "About Us". */
 .about-item p {
-    text-align: justify; /* Texto justificado para una apariencia más formal. */
+    text-align: justify;
     line-height: 1.6;
     margin-bottom: 1em;
     color: #333;
 }
-
 .about-item p:last-child {
     margin-bottom: 0;
 }
-
 .about-item ul {
     list-style-type: none;
     padding-left: 0;
     margin: 20px 0;
 }
-
-/* Usamos el pseudo-elemento '::before' para añadir un ícono de check
-   de Font Awesome antes de cada elemento de la lista. */
 .about-item li {
     background-color: #e8f5e9;
     padding: 12px 15px;
     border-radius: 8px;
     margin-bottom: 8px;
     position: relative;
-    padding-left: 35px; /* Dejamos espacio para el ícono. */
+    padding-left: 35px;
     text-align: left;
     color: #333;
     font-size: 0.95rem;
 }
-
 .about-item li::before {
-    content: '\f00c'; /* Código del ícono de check en Font Awesome. */
+    content: '\f00c';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     color: #1f771d;
@@ -655,62 +482,47 @@ main section {
     transform: translateY(-50%);
     font-size: 0.9rem;
 }
-
-/* ===================================================
-   SECCIÓN DE MANIFIESTO Y PILARES
-   =================================================== */
-
 .about-info h2 {
     margin-bottom: 20px;
 }
-
 .manifesto-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
     margin: 25px 0;
 }
-
 .manifesto-item {
     background-color: #e8f5e9;
     padding: 20px;
     border-radius: 8px;
-    border-left: 5px solid #1f771d; /* Borde izquierdo para dar énfasis. */
+    border-left: 5px solid #1f771d;
 }
-
 .manifesto-item h3 {
     margin-top: 0;
     color: #1f771d;
 }
-
 .manifesto-item p {
     text-align: left;
     margin-bottom: 0;
 }
-
-/* En pantallas más grandes, el manifiesto se muestra en 2 columnas. */
 @media (min-width: 600px) {
     .manifesto-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
-
 .pillars-section {
     margin-top: 30px;
 }
-
 .pillars-section h3 {
     text-align: center;
     margin-bottom: 20px;
     font-size: 1.6rem;
 }
-
 .pillars-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 15px;
 }
-
 .pillar-item {
     background: #ffffff;
     border-radius: 10px;
@@ -718,41 +530,31 @@ main section {
     border: 1px solid #e0e0e0;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    outline: none; /* Quitamos el borde de foco por defecto para poner uno personalizado. */
+    outline: none;
 }
-
-/* Efecto al pasar el mouse o al hacer foco (para accesibilidad). */
 .pillar-item:hover,
 .pillar-item:focus-within {
     transform: translateY(-5px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     border-color: #1f771d;
 }
-
 .pillar-header {
     display: flex;
     align-items: center;
     gap: 15px;
     margin-bottom: 10px;
 }
-
 .pillar-header i {
     font-size: 2rem;
     color: #1f771d;
-    min-width: 32px; /* Ancho mínimo para alinear los títulos. */
+    min-width: 32px;
     text-align: center;
 }
-
 .pillar-header h4 {
     margin: 0;
     font-size: 1.2rem;
     color: #2e7031;
 }
-
-/* TÉCNICA DE ACORDEÓN CON CSS:
-   - La descripción está oculta por defecto con 'max-height: 0' y 'opacity: 0'.
-   - Al hacer hover o focus en el '.pillar-item', la descripción cambia a 'max-height: 200px' y 'opacity: 1'.
-   - La transición en 'max-height' crea el efecto de despliegue suave. */
 .pillar-description {
     text-align: justify !important;
     line-height: 1.5;
@@ -764,29 +566,22 @@ main section {
     overflow: hidden;
     transition: max-height 0.4s ease-out, opacity 0.4s ease-out, margin-top 0.4s ease-out;
 }
-
 .pillar-item:hover .pillar-description,
 .pillar-item:focus-within .pillar-description {
-    max-height: 200px; /* Ajustar si el texto es más largo. */
+    max-height: 200px;
     opacity: 1;
     margin-top: 10px;
 }
-
 @media (min-width: 768px) {
     .pillars-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
-
-/* ===================================================
-   SECCIÓN DE DESCARGA DE APP
-   =================================================== */
 .app-download-section {
     padding: 60px 20px;
-    background-color: #283029; /* Fondo oscuro para que esta sección destaque. */
+    background-color: #283029;
     color: #ffffff;
 }
-
 .app-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -795,38 +590,30 @@ main section {
     max-width: 1000px;
     margin: 0 auto;
 }
-
-/* En escritorio, el layout es de 2 columnas: imagen y texto. */
 @media (min-width: 768px) {
     .app-grid {
         grid-template-columns: 1fr 1.2fr;
     }
 }
-
 .app-image-col img {
     max-width: 300px;
     margin: 0 auto;
     display: block;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); /* Sombra para dar profundidad. */
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
 }
-
 .app-text-col {
     text-align: center;
 }
-
-/* En escritorio, el texto se alinea a la izquierda. */
 @media (min-width: 768px) {
     .app-text-col {
         text-align: left;
     }
 }
-
 .app-text-col h2 {
-    color: #25D366; /* Verde brillante para el título. */
+    color: #25D366;
     font-size: 2.2rem;
     margin-bottom: 15px;
 }
-
 .app-text-col p {
     font-size: 1.1rem;
     color: #d4d4d4;
@@ -836,14 +623,12 @@ main section {
     margin-left: auto;
     margin-right: auto;
 }
-
 @media (min-width: 768px) {
     .app-text-col p {
         margin-left: 0;
         margin-right: 0;
     }
 }
-
 .btn-app-download {
     display: inline-flex;
     align-items: center;
@@ -858,39 +643,30 @@ main section {
     box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
     transition: all 0.3s ease;
 }
-
 .btn-app-download:hover {
     transform: translateY(-4px) scale(1.05);
     box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
 }
-
-/* ===================================================
-   SECCIÓN DE PROYECTOS INTEGRALES
-   =================================================== */
 .projects-section {
     padding: 40px 20px;
     background-color: #ffffff;
     text-align: center;
 }
-
 .projects-section .subtitle {
     font-size: 1.1rem;
     color: #555;
     margin-top: -5px;
     margin-bottom: 30px;
 }
-
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 25px;
     margin-bottom: 30px;
 }
-
-/* Tarjeta de proyecto individual. */
 .project-card {
     position: relative;
-    overflow: hidden; /* Oculta partes de la imagen que se salen al hacer zoom. */
+    overflow: hidden;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     display: block;
@@ -898,12 +674,10 @@ main section {
     text-decoration: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .project-card:hover {
     transform: translateY(-5px) scale(1.03);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
-
 .project-card img {
     width: 100%;
     height: 100%;
@@ -911,16 +685,9 @@ main section {
     display: block;
     transition: transform 0.4s ease;
 }
-
-/* Efecto de zoom en la imagen al pasar el mouse. */
 .project-card:hover img {
     transform: scale(1.1);
 }
-
-/* TÉCNICA DE SUPERPOSICIÓN (OVERLAY):
-   - Usamos un pseudo-elemento '::after' para crear una capa semitransparente sobre la imagen.
-   - El degradado va de negro opaco en la parte inferior a transparente en la superior,
-     lo que hace que el texto del título sea más legible. */
 .project-card::after {
     content: '';
     position: absolute;
@@ -932,12 +699,9 @@ main section {
     opacity: 0.8;
     transition: opacity 0.3s ease;
 }
-
 .project-card:hover::after {
-    opacity: 1; /* El overlay se oscurece un poco más al hacer hover. */
+    opacity: 1;
 }
-
-/* Título de la tarjeta, posicionado sobre el overlay. */
 .project-card h3 {
     position: absolute;
     bottom: 0;
@@ -945,18 +709,16 @@ main section {
     width: 100%;
     margin: 0;
     padding: 20px;
-    box-sizing: border-box; /* El padding no aumenta el ancho. */
-    z-index: 2; /* Se asegura de estar por encima del overlay. */
+    box-sizing: border-box;
+    z-index: 2;
     color: #ffffff;
     font-size: 1.3rem;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Sombra para legibilidad. */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
     transition: transform 0.3s ease;
 }
-
 .project-card:hover h3 {
     transform: translateY(-5px);
 }
-
 .btn-projects {
     display: inline-block;
     padding: 12px 30px;
@@ -968,35 +730,27 @@ main section {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
 }
-
 .btn-projects:hover {
     background-color: #128C7E;
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-
-/* ===================================================
-   GALERÍA DE IMÁGENES (ANTES Y DESPUÉS)
-   =================================================== */
 .gallery-section {
     padding: 40px 20px;
     background-color: #f3f3f3;
     text-align: center;
 }
-
 .gallery-section .subtitle {
     font-size: 1.1rem;
     color: #555;
     margin-top: -5px;
     margin-bottom: 30px;
 }
-
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
 }
-
 .gallery-thumbnail {
     position: relative;
     overflow: hidden;
@@ -1004,14 +758,12 @@ main section {
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    aspect-ratio: 16 / 9; /* Mantiene la proporción 16:9 para todas las miniaturas. */
+    aspect-ratio: 16 / 9;
 }
-
 .gallery-thumbnail:hover {
     transform: translateY(-5px) scale(1.03);
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
-
 .gallery-thumbnail img {
     width: 100%;
     height: 100%;
@@ -1019,15 +771,11 @@ main section {
     display: block;
     transition: transform 0.4s ease;
 }
-
 .gallery-thumbnail:hover img {
     transform: scale(1.1);
 }
-
-/* Ícono de 'lupa' que aparece al pasar el mouse sobre la miniatura.
-   Usamos de nuevo un pseudo-elemento '::after'. */
 .gallery-thumbnail::after {
-    content: '\f00e'; /* Código del ícono 'search-plus' de Font Awesome. */
+    content: '\f00e';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     position: absolute;
@@ -1047,15 +795,10 @@ main section {
     transition: opacity 0.3s ease, transform 0.3s ease;
     text-shadow: 0 0 5px black;
 }
-
 .gallery-thumbnail:hover::after {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
 }
-
-/* --- ESTILOS DEL MODAL (LIGHTBOX) DE LA GALERÍA --- */
-
-/* El modal es un overlay de pantalla completa. */
 .gallery-modal {
     position: fixed;
     top: 0;
@@ -1064,50 +807,41 @@ main section {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.85);
     z-index: 2000;
-    display: none; /* Oculto por defecto. */
+    display: none;
     align-items: center;
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
-
-/* Lógica de aparición del modal:
-   1. JavaScript añade la clase '.show', que cambia 'display' a 'flex'. El modal existe pero es invisible.
-   2. Inmediatamente después, JS añade la clase '.visible', que cambia 'opacity' a 1, creando la animación de fade-in. */
 .gallery-modal.show {
     display: flex;
 }
-
 .gallery-modal.visible {
     opacity: 1;
 }
-
 .modal-content {
     position: relative;
-    max-width: 90vw; /* La imagen nunca ocupará más del 90% del ancho de la ventana. */
-    max-height: 85vh; /* Ni más del 85% del alto. */
+    max-width: 90vw;
+    max-height: 85vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-
 #modal-image {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* La imagen se ajusta sin recortarse. */
+    object-fit: contain;
     border-radius: 5px;
     box-shadow: 0 0 25px rgba(0,0,0,0.5);
-    transform: scale(0.9); /* Animación de zoom al aparecer. */
+    transform: scale(0.9);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
-
 .gallery-modal.visible #modal-image {
     transform: scale(1);
     opacity: 1;
 }
-
 .modal-close {
     position: absolute;
     top: 15px;
@@ -1122,11 +856,9 @@ main section {
     transition: color 0.2s;
     text-shadow: 0 0 5px black;
 }
-
 .modal-close:hover {
     color: #ccc;
 }
-
 .modal-arrow {
     position: absolute;
     top: 50%;
@@ -1139,17 +871,13 @@ main section {
     font-size: 1.8rem;
     z-index: 2001;
     transition: background-color 0.2s;
-    user-select: none; /* Evita que el texto de las flechas se seleccione. */
+    user-select: none;
 }
-
 .modal-arrow:hover {
     background-color: rgba(0, 0, 0, 0.7);
 }
-
 .modal-prev { left: 15px; }
 .modal-next { right: 15px; }
-
-/* Contador de imágenes (ej. "3 / 12"). */
 .modal-caption {
     position: absolute;
     bottom: -35px;
@@ -1160,37 +888,26 @@ main section {
     padding: 10px 0;
     text-shadow: 0 0 5px black;
 }
-
-/* Si el menú móvil está abierto, ocultamos el modal para evitar conflictos de z-index y usabilidad. */
 body.menu-open .gallery-modal {
     display: none;
 }
-
-
-/* ===================================================
-   SECCIÓN DE ASESORES Y PUNTOS DE ENTREGA
-   =================================================== */
 .delivery-section {
     padding: 60px 20px;
     background-color: #1a1e1b;
     color: #e0e0e0;
     text-align: center;
 }
-
 .delivery-section h2 {
     color: #25D366;
     font-size: 2.2rem;
     margin-bottom: 10px;
 }
-
 .delivery-section .subtitle {
     font-size: 1.1rem;
     color: #b0b0b0;
     max-width: 700px;
     margin: 0 auto 40px auto;
 }
-
-/* Layout de 2 columnas: la principal es el doble de ancha que la secundaria (2fr 1fr). */
 .delivery-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -1199,16 +916,14 @@ body.menu-open .gallery-modal {
     margin: 0 auto;
     text-align: left;
 }
-
 .delivery-main, .delivery-secondary {
     background-color: #283029;
     padding: 30px;
     border-radius: 15px;
     border: 1px solid #4a544b;
     display: flex;
-    flex-direction: column; /* Importante para alinear el botón al final. */
+    flex-direction: column;
 }
-
 .delivery-grid h3 {
     color: #ffffff;
     font-size: 1.5rem;
@@ -1218,19 +933,14 @@ body.menu-open .gallery-modal {
     align-items: center;
     gap: 10px;
 }
-
 .delivery-grid p {
     color: #d4d4d4;
     line-height: 1.7;
     text-align: justify;
 }
-
-/* 'flex-grow: 1' hace que los párrafos ocupen todo el espacio vertical disponible,
-   empujando a los elementos que vienen después (como los botones) hacia abajo. */
 .delivery-secondary > p, .main-option > p {
     flex-grow: 1;
 }
-
 .main-option {
     background-color: rgba(0, 0, 0, 0.2);
     padding: 20px;
@@ -1241,20 +951,18 @@ body.menu-open .gallery-modal {
     flex-direction: column;
     flex: 1; 
 }
-
 .main-option h4 {
     color: #25D366;
     margin-top: 0;
     font-size: 1.2rem;
 }
-
 .btn-delivery-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     width: 100%;
-    box-sizing: border-box; /* El padding no se suma al ancho total. */
+    box-sizing: border-box;
     text-align: center;
     padding: 16px 20px;
     background: linear-gradient(145deg, #25D366, #128C7E);
@@ -1267,13 +975,11 @@ body.menu-open .gallery-modal {
     transition: all 0.3s ease;
     animation: pulse 2.5s infinite;
 }
-
 .btn-delivery-primary:hover {
     transform: translateY(-4px) scale(1.03);
     box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
     animation-play-state: paused;
 }
-
 .btn-delivery-secondary {
     display: inline-flex;
     align-items: center;
@@ -1291,19 +997,14 @@ body.menu-open .gallery-modal {
     font-weight: bold;
     font-size: 1rem;
     transition: all 0.3s ease;
-    margin-top: auto; /* TRUCO: Empuja el botón al final del contenedor flex. */
+    margin-top: auto;
 }
-
 .btn-delivery-secondary:hover {
     background-color: #4a544b;
     border-color: #4a544b;
     color: #ffffff;
     transform: translateY(-2px);
 }
-
-/* ===================================================
-   TIPOGRAFÍA (TÍTULOS)
-   =================================================== */
 h1, h2, h3 {
     font-family: 'Segoe UI', Arial, sans-serif;
     font-weight: 700;
@@ -1311,33 +1012,21 @@ h1, h2, h3 {
     margin: 12px 0 8px 0;
     line-height: 1.2;
 }
-
-/* Escala de tamaños para una jerarquía visual clara. */
 h1 { font-size: 2.5rem; }
 h2 { font-size: 1.8rem; }
 h3 { font-size: 1.4rem; }
-
-/* En móviles, los títulos son más pequeños para adaptarse mejor a la pantalla. */
 @media (max-width: 768px) {
     h1 { font-size: 1.8rem; }
     h2 { font-size: 1.5rem; }
     h3 { font-size: 1.2rem; }
-    
-    /* Ajustes específicos para títulos en secciones con fondos de color. */
     .app-text-col h2 { font-size: 1.9rem; }
     .delivery-section h2 {
         font-size: 1.7rem;
     }
-    
-    /* En móvil, la sección de entrega pasa a una sola columna. */
     .delivery-grid {
         grid-template-columns: 1fr;
     }
 }
-
-/* ===================================================
-   PIE DE PÁGINA (FOOTER)
-   =================================================== */
 .main-footer {
     background-color: #283029;
     color: #ffffff;
@@ -1345,40 +1034,34 @@ h3 { font-size: 1.4rem; }
     font-family: 'Segoe UI', Arial, sans-serif;
     border-top: 2px solid #4a544b;
 }
-
 .main-footer a {
     color: #d4d4d4;
     text-decoration: none;
     transition: color 0.3s ease;
 }
-
 .main-footer a:hover {
     color: #ffffff;
 }
-
 .footer-grid {
     display: flex;
-    flex-wrap: wrap; /* En pantallas pequeñas, las columnas se apilarán. */
+    flex-wrap: wrap;
     justify-content: space-around;
     gap: 30px;
     margin-bottom: 30px;
 }
-
 .footer-column {
-    flex: 1 1 250px; /* Crecimiento flexible, base de 250px. */
+    flex: 1 1 250px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
 .footer-column h3 {
     color: #25D366;
     margin-bottom: 15px;
     font-size: 1.2rem;
     font-weight: 600;
 }
-
 .footer-links a {
     display: block;
     margin-bottom: 8px;
@@ -1387,7 +1070,6 @@ h3 { font-size: 1.4rem; }
 .footer-links a:hover {
     text-decoration: underline;
 }
-
 .contact-item {
     display: flex;
     align-items: center;
@@ -1396,15 +1078,12 @@ h3 { font-size: 1.4rem; }
     font-size: 0.95rem;
     margin-bottom: 10px;
 }
-
 .contact-item:last-child {
     margin-bottom: 0;
 }
-
 .contact-item i {
     color: #25D366;
 }
-
 .social-icons {
     display: flex;
     gap: 20px;
@@ -1415,17 +1094,14 @@ h3 { font-size: 1.4rem; }
     display: inline-block;
     transition: transform 0.3s ease, color 0.3s ease;
 }
-
 .social-icons a:hover {
     transform: scale(1.2) translateY(-2px);
     color: #25D366;
 }
-
 .linktree-section {
     margin-top: 20px;
     width: 100%;
 }
-
 .btn-linktree {
     display: inline-block;
     padding: 10px 20px;
@@ -1437,18 +1113,15 @@ h3 { font-size: 1.4rem; }
     text-decoration: none;
     transition: all 0.3s ease;
 }
-
 .btn-linktree:hover {
     background-color: #25D366;
     color: #ffffff;
     border-color: #25D366;
     transform: translateY(-2px);
 }
-
 .btn-linktree .fas {
     margin-right: 8px;
 }
-
 .copyright {
     text-align: center;
     padding-top: 20px;
@@ -1456,45 +1129,31 @@ h3 { font-size: 1.4rem; }
     font-size: 0.85rem;
     color: #a0a0a0;
 }
-
 .footer-primary-contact {
     color: #ffffff;
     font-weight: 500;
 }
-
 .footer-primary-contact:hover {
     color: #25D366;
 }
-
-/* El teléfono de oficina no es un enlace, por lo que tiene un estilo diferente. */
 .footer-office-phone {
     color: #a0a0a0;
-    cursor: default; /* El cursor indica que no es clicable. */
+    cursor: default;
 }
-
 .contact-item .footer-office-phone-icon {
     color: #a0a0a0;
 }
-
-/* En móvil, las columnas del footer se apilan verticalmente. */
 @media (max-width: 768px) {
     .footer-grid {
         flex-direction: column;
         align-items: center;
         gap: 30px;
     }
-
     .footer-column {
         flex-basis: auto;
         width: 100%;
     }
 }
-
-/* ===================================================
-   ESTILOS DEL CHATBOT
-   =================================================== */
-
-/* Animación de "latido" con resplandor para el botón flotante del chat. */
 @keyframes throb-glow {
     0% {
         box-shadow: 0 4px 12px rgba(221, 44, 0, 0.3);
@@ -1509,8 +1168,6 @@ h3 { font-size: 1.4rem; }
         transform: scale(1);
     }
 }
-
-/* Botón flotante (FAB - Floating Action Button). */
 .chatbot-fab {
     position: fixed;
     bottom: 25px;
@@ -1531,14 +1188,11 @@ h3 { font-size: 1.4rem; }
     transition: transform 0.3s ease, background 0.3s ease;
     animation: throb-glow 3s infinite ease-in-out;
 }
-
 .chatbot-fab:hover {
     background: linear-gradient(145deg, #dd2c00, #b91c00);
     transform: scale(1.15);
     animation-play-state: paused;
 }
-
-/* Ventana principal del chat. */
 .chat-window {
     position: fixed;
     bottom: 100px;
@@ -1554,22 +1208,17 @@ h3 { font-size: 1.4rem; }
     flex-direction: column;
     overflow: hidden;
     z-index: 999;
-    /* Estado inicial (oculto) para la animación de aparición. */
     transform: translateY(20px) scale(0.95);
     opacity: 0;
     visibility: hidden;
-    /* La curva 'cubic-bezier' da una sensación de "rebote" suave a la animación. */
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease, visibility 0.3s;
 }
-
-/* Estado visible de la ventana del chat. */
 .chat-window.open {
     transform: translateY(0) scale(1);
     opacity: 1;
     visibility: visible;
-    z-index: 1001; /* Se asegura de que la ventana abierta esté sobre el botón FAB. */
+    z-index: 1001;
 }
-
 .chat-header {
     background-color: #1f771d;
     color: white;
@@ -1580,13 +1229,11 @@ h3 { font-size: 1.4rem; }
     font-family: 'Segoe UI', Arial, sans-serif;
     font-weight: 600;
 }
-
 .chat-header h3 {
     margin: 0;
     color: white;
     font-size: 1.1rem;
 }
-
 .close-chat-btn {
     background: none;
     border: none;
@@ -1596,59 +1243,46 @@ h3 { font-size: 1.4rem; }
     line-height: 1;
     padding: 0;
 }
-
 .chat-messages {
-    flex-grow: 1; /* Ocupa todo el espacio vertical disponible. */
+    flex-grow: 1;
     padding: 15px;
-    overflow-y: auto; /* Permite scroll si los mensajes son muchos. */
+    overflow-y: auto;
     background-color: #f3f3f3;
     position: relative;
 }
-
-/* Estructura de un mensaje individual. */
 .message {
     display: flex;
     margin-bottom: 12px;
     max-width: 85%;
 }
-
 .message-content {
     padding: 10px 15px;
     border-radius: 18px;
     font-size: 0.95rem;
     line-height: 1.4;
-    word-wrap: break-word; /* Evita que palabras largas rompan la burbuja. */
+    word-wrap: break-word;
 }
-
 .message-content a {
     color: #0056b3;
     text-decoration: underline;
 }
-
-/* Mensajes del usuario: alineados a la derecha. */
 .message.user {
     margin-left: auto;
     flex-direction: row-reverse;
 }
-
 .message.user .message-content {
     background-color: #25D366;
     color: white;
-    border-bottom-right-radius: 4px; /* Pequeño detalle para simular una "cola" en la burbuja. */
+    border-bottom-right-radius: 4px;
 }
-
-/* Mensajes de la IA: alineados a la izquierda. */
 .message.ai .message-content {
     background-color: #e9e9eb;
     color: #333;
     border-bottom-left-radius: 4px;
 }
-
-/* Indicador de "escribiendo..." */
 .message.loading .message-content {
     padding: 10px 15px;
 }
-
 .typing-indicator span {
     display: inline-block;
     width: 8px;
@@ -1656,27 +1290,20 @@ h3 { font-size: 1.4rem; }
     border-radius: 50%;
     background-color: #8e8e93;
     margin: 0 1px;
-    /* Animación de rebote para los 3 puntos. */
     animation: bounce 1.4s infinite ease-in-out both;
 }
-
-/* El 'animation-delay' hace que los puntos reboten en secuencia. */
 .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
 .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-
 @keyframes bounce {
     0%, 80%, 100% { transform: scale(0); }
     40% { transform: scale(1.0); }
 }
-
-/* Botones de acción dentro de un mensaje. */
 .message-actions {
     margin-top: 12px;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
-
 .btn-chat-action {
     display: inline-block;
     padding: 8px 16px;
@@ -1689,8 +1316,6 @@ h3 { font-size: 1.4rem; }
     transition: all 0.2s ease-in-out;
     text-align: center;
 }
-
-/* Botones secundarios (acciones sugeridas). */
 .btn-chat-action.secondary {
     background-color: transparent;
     border-color: #1f771d;
@@ -1700,8 +1325,6 @@ h3 { font-size: 1.4rem; }
     background-color: rgba(31, 119, 29, 0.1);
     transform: translateY(-2px);
 }
-
-/* Botones de recursos (enlaces a fichas, etc.). */
 .btn-chat-action.resource {
     background-color: #1f771d;
     color: white;
@@ -1711,8 +1334,6 @@ h3 { font-size: 1.4rem; }
     transform: translateY(-2px);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
-
-/* Botones primarios (enlaces de contacto importantes). */
 .btn-chat-action.primary {
     background-color: #25D366;
     color: white;
@@ -1723,17 +1344,14 @@ h3 { font-size: 1.4rem; }
     transform: translateY(-2px) scale(1.03);
     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
 }
-
-/* Área de entrada de texto del chat. */
 .chat-input-area {
     display: flex;
     padding: 10px;
     border-top: 1px solid #ddd;
     background-color: #fff;
 }
-
 #chat-input {
-    flex-grow: 1; /* Ocupa todo el espacio disponible. */
+    flex-grow: 1;
     border: 1px solid #ccc;
     border-radius: 20px;
     padding: 10px 15px;
@@ -1742,11 +1360,9 @@ h3 { font-size: 1.4rem; }
     transition: border-color 0.2s;
     color: #333;
 }
-
 #chat-input:focus {
-    border-color: #1f771d; /* El borde se pone verde al escribir. */
+    border-color: #1f771d;
 }
-
 #send-btn {
     background-color: #1f771d;
     color: white;
@@ -1762,18 +1378,13 @@ h3 { font-size: 1.4rem; }
     align-items: center;
     transition: background-color 0.2s;
 }
-
 #send-btn:hover {
     background-color: #128C7E;
 }
-
-/* Botón de enviar desactivado (mientras se espera respuesta). */
 #send-btn:disabled {
     background-color: #a5d6a7;
     cursor: not-allowed;
 }
-
-/* En pantallas muy pequeñas, el chat se expande a pantalla completa. */
 @media (max-width: 480px) {
     .chat-window {
         bottom: 0;
