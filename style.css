@@ -8,6 +8,23 @@
    ================================================================================= */
 
 /* ===================================================
+   UTILIDADES Y ACCESIBILIDAD
+   =================================================== */
+
+/* Clase para ocultar visualmente un elemento pero mantenerlo accesible para
+   lectores de pantalla y motores de búsqueda. Esencial para el H1 principal. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ===================================================
    ESTILOS BASE (HTML & BODY)
    =================================================== */
 html, body {
@@ -1304,7 +1321,7 @@ body.menu-open .gallery-modal {
 /* ===================================================
    TIPOGRAFÍA (TÍTULOS)
    =================================================== */
-h1, h2, h3 {
+h1, h2, h3, h4 {
     font-family: 'Segoe UI', Arial, sans-serif;
     font-weight: 700;
     color: #2e7031;
@@ -1316,12 +1333,14 @@ h1, h2, h3 {
 h1 { font-size: 2.5rem; }
 h2 { font-size: 1.8rem; }
 h3 { font-size: 1.4rem; }
+h4 { font-size: 1.2rem; }
 
 /* En móviles, los títulos son más pequeños para adaptarse mejor a la pantalla. */
 @media (max-width: 768px) {
     h1 { font-size: 1.8rem; }
     h2 { font-size: 1.5rem; }
     h3 { font-size: 1.2rem; }
+    h4 { font-size: 1.1rem; }
     
     /* Ajustes específicos para títulos en secciones con fondos de color. */
     .app-text-col h2 { font-size: 1.9rem; }
