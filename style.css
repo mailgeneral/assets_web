@@ -1712,8 +1712,8 @@ h4 { font-size: 1.2rem; }
 /* Botones secundarios (acciones sugeridas). */
 .btn-chat-action.secondary {
     background-color: transparent;
-    border-color: #1f771d;
-    color: #1f771d;
+    border-color: #314c34;
+    color: #314c34;
 }
 .btn-chat-action.secondary:hover {
     background-color: rgba(31, 119, 29, 0.1);
